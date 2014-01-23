@@ -1,0 +1,13 @@
+{
+  "name": "gaEvents",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-jshint": "*",
+    "matchdep": "*"
+  },
+  "description": "Google Analytics Event Tracking",
+  "main": "Gruntfile.js",
+  "author": "Bigfork"
+}
