@@ -1,10 +1,10 @@
 // timeout before performing default behaviour
 var gaEventDelay = 100;
-var gaEventPage = gaEventPage || '';
+var gaEventPage;
 var gaTimeout;
 
 $(function(){
-	var gaEventPage = $('title').html();
+	gaEventPage = $('title').html();
 });
 
 /*!
@@ -15,6 +15,7 @@ $(function(){
  * ---------------------------------------------------------------------------------
  */
 var trackEvent = function(gaEventCategory, gaEventAction, gaEventLabel, gaEventValue){
+	// uncomment this to push events to GA
 	// _gaq.push(['_trackEvent', gaEventCategory, gaEventAction, gaEventLabel, gaEventValue]);
 	console.log(gaEventCategory, gaEventAction, gaEventLabel, gaEventValue);
 };
@@ -33,7 +34,7 @@ $(function(){
 		e.preventDefault();
 
 		// track using the form ID
-		trackEvent('Form Submission', $(this.attr('id')), gaEventPage, null);
+		trackEvent('Form Submission', $(this).attr('id'), gaEventPage, '');
 
 		clearTimeout(gaTimeout);
 		gaTimeout = setTimeout(function(){
@@ -51,11 +52,11 @@ $(function(){
  */
 
 $(function(){
-	$('a[rel*=external, a[target=_blank]').each(function(){
+	$('a[rel*=external], a[target=_blank]').each(function(){
 		var $_self = $(this);
-		var gaAnchorText = $_self.html().text() || 'No anchor text';
+		var gaAnchorText = $_self.html() || 'No anchor text';
 		var gaLinkURL = $_self.attr('href');
-		var targetBlank = $_self.attr('target') === '_blank' ? true : false;
+		var gaLinkTarget = ($_self.attr('target') === '_blank') ? '_blank' : '_self';
 		var gaEventType = gaLinkURL.match(/[.](doc|docx|xls|xlsx|ppt|pptx|pdf)$/) ? 'File Download': 'External Link';
 
 		$_self.click(function(e){
@@ -63,16 +64,9 @@ $(function(){
 			trackEvent(gaEventType, gaLinkURL, gaEventPage, gaAnchorText);
 			clearTimeout(gaTimeout);
 
-			// open in new window
-			if (target === true){
-				gaTimeout = setTimeout(function(){
-					window.open(gaLinkURL, '_self');
-				}, gaEventDelay);
-			} else {
-				gaTimeout = setTimeout(function(){
-					location.href = gaLinkURL;
-				}, gaEventDelay);
-			}
+			gaTimeout = setTimeout(function(){
+				window.open(gaLinkURL, gaLinkTarget);
+			}, gaEventDelay);
 		});
 	});
 });
