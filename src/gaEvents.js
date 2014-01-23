@@ -9,9 +9,11 @@ $(function(){
 
 /*!
  * Push a tracking event to Google Analytics
- * @gaCategory: string
- * @gaAction: string
- * @gaLabel: string
+ *
+ * @gaEventCategory: string | The type of event e.g. Form Submission, Link Clicked
+ * @gaEventAction: string | What the event made happen e.g. filename, URL
+ * @gaEventLabel: string | A label for the event, e.g. which page it was on
+ * @gaEventValue: string | An additional value, e.g. anchor text
  * ---------------------------------------------------------------------------------
  */
 var trackEvent = function(gaEventCategory, gaEventAction, gaEventLabel, gaEventValue){
@@ -22,8 +24,6 @@ var trackEvent = function(gaEventCategory, gaEventAction, gaEventLabel, gaEventV
 
 /*!
  * Track form submissions
- * @gaEventPage: string | The page the form was submitted from
- * @gaEventFormID: string | The HTML ID of the form
  * ---------------------------------------------------------------------------------
  */
 
@@ -45,9 +45,6 @@ $(function(){
 
 /*!
  * Track external links and files
- * @gaEventType: string | The page the link was on
- * @gaEventPage: string | The page the link was on
- * @gaEventFormID: string | The URL of the clicked link
  * ---------------------------------------------------------------------------------
  */
 
